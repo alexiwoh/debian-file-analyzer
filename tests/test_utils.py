@@ -1,11 +1,24 @@
+"""
+Unit tests for the Debian File Analyzer utility functions.
+
+Tests cover URL construction and parsing of Contents file lines into
+a package → file count mapping.
+"""
+
 import unittest
 
 from utils import build_url, parse_contents_text
 
 
 class TestUtils(unittest.TestCase):
+    """
+    Unit tests for helper functions in utils.py.
+    """
 
     def test_build_url(self):
+        """
+        Verifies that the URL is correctly constructed for a given architecture.
+        """
         arch = "amd64"
         expected_url = (
             "http://ftp.uk.debian.org/debian/dists/stable/main/Contents-amd64.gz"
@@ -13,6 +26,9 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(build_url(arch), expected_url)
 
     def test_parse_contents_text_basic(self):
+        """
+        Tests parsing a simple Contents file input with single-package entries.
+        """
         mock_text = """
 FILE                    LOCATION
 usr/bin/python3         python3
@@ -24,6 +40,9 @@ usr/share/doc/bash/README    bash
         self.assertEqual(result, expected)
 
     def test_parse_contents_text_with_multiple_packages(self):
+        """
+        Tests that the parser can handle lines where multiple packages share a file.
+        """
         mock_text = """
 usr/share/doc/common/LICENSE    coreutils,base-files
 """
